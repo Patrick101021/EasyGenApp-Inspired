@@ -2,10 +2,13 @@ const fetch = require("node-fetch");
 
 exports.handler = async function(event, context) {
   try {
-    const { input } = JSON.parse(event.body);
+    if (!event.body) {
+      throw new Error("No se recibió body en la solicitud.");
+    }
 
-    // Mostrar si Netlify está reconociendo la variable
+    const { input } = JSON.parse(event.body);
     console.log("🔑 API KEY detectada:", process.env.GEMINI_API_KEY);
+    console.log("📥 Texto recibido:", input);
 
     const response = await fetch(
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-002:generateContent?key=" + process.env.GEMINI_API_KEY,
@@ -42,6 +45,7 @@ exports.handler = async function(event, context) {
     };
   }
 };
+
 
 
 

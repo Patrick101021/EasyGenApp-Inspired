@@ -1,38 +1,22 @@
-async function generateCode() {
-    const userInput = document.getElementById("userInput").value.trim();
-    const resultArea = document.getElementById("resultArea");
 
-    if (!userInput) {
-        resultArea.textContent = "Por favor, describe el código que deseas generar.";
-        return;
-    }
+const baseDeEjemplos = {
+  "formulario de contacto": "<form><input type='text' placeholder='Nombre'><input type='email' placeholder='Correo'><textarea placeholder='Mensaje'></textarea><button>Enviar</button></form>",
+  "juego en js": "<script>let num = Math.floor(Math.random()*10)+1; let guess = prompt('Adivina un número del 1 al 10'); alert(guess == num ? '¡Correcto!' : 'No, era ' + num);</script>",
+  "html absurdo": "<marquee><h1>🐸💥 Bienvenido al templo de los sapos explosivos 💥🐸</h1></marquee>",
+  "css fuego": "<style>body{background:black} .fuego{animation: burn 1s infinite;}</style><div class='fuego'>🔥🔥🔥</div>",
+  "calculadora simple": "<input id='a'><input id='b'><button onclick='c.innerText=+a.value + +b.value'>Sumar</button><div id='c'></div>"
+};
 
-    resultArea.textContent = "Generando código, por favor espera...";
+function buscarCodigo() {
+    const entrada = document.getElementById("userInput").value.toLowerCase();
+    const salida = document.getElementById("resultArea");
 
-    const API_URL = "https://api-inference.huggingface.co/models/bigcode/starcoder";
-    const HF_TOKEN = "AQUÍ_VA_TU_TOKEN"; // ← no pongas el real aquí
-
-
-    try {
-        const response = await fetch(API_URL, {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${HF_TOKEN}`,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ inputs: userInput })
-        });
-
-        if (!response.ok) throw new Error("Error al conectar con la API");
-
-        const data = await response.json();
-        if (data.error) {
-            resultArea.textContent = "La API respondió con un error: " + data.error;
-        } else {
-            resultArea.textContent = data[0]?.generated_text || "No se pudo generar código para esa descripción.";
+    for (let clave in baseDeEjemplos) {
+        if (entrada.includes(clave)) {
+            salida.textContent = baseDeEjemplos[clave];
+            return;
         }
-    } catch (error) {
-        resultArea.textContent = "Error al conectar con la API: " + error.message;
     }
-}
 
+    salida.textContent = "No se encontró un ejemplo para esa descripción. ¡Prueba con otra!";
+}

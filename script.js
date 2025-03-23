@@ -1,5 +1,4 @@
 
-// script.js
 async function generateCode() {
     const userInput = document.getElementById("userInput").value.trim();
     const resultArea = document.getElementById("resultArea");
@@ -9,31 +8,22 @@ async function generateCode() {
         return;
     }
 
-    resultArea.textContent = "Generando código, por favor espera...";
-
-    const API_URL = "https://api-inference.huggingface.co/models/bigcode/starcoder";
-    const HF_TOKEN = "AQUÍ_VA_TU_TOKEN"; // ← no pongas el real aquí
-
+    resultArea.textContent = "Generando código...";
 
     try {
-        const response = await fetch(API_URL, {
+        const response = await fetch("/.netlify/functions/generate", {
             method: "POST",
-            headers: {
-                "Authorization": `Bearer ${HF_TOKEN}`,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ inputs: userInput })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ input: userInput })
         });
-
-        if (!response.ok) throw new Error("Error al conectar con la API");
 
         const data = await response.json();
         if (data.error) {
-            resultArea.textContent = "La API respondió con un error: " + data.error;
+            resultArea.textContent = "Error: " + data.error;
         } else {
-            resultArea.textContent = data[0]?.generated_text || "No se pudo generar código para esa descripción.";
+            resultArea.textContent = data[0]?.generated_text || "No se pudo generar código.";
         }
     } catch (error) {
-        resultArea.textContent = "Error al conectar con la API: " + error.message;
+        resultArea.textContent = "Error al conectar con la función: " + error.message;
     }
 }

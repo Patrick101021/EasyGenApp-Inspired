@@ -6,28 +6,28 @@
     <title>EasyGenApp</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
-        h1 { color: #333; }
-        textarea, input, button {
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; }
+        h1 { color: #222; }
+        textarea, button {
             width: 100%;
             padding: 10px;
             margin-top: 10px;
+            font-size: 16px;
             border-radius: 5px;
             border: 1px solid #ccc;
             box-sizing: border-box;
-            font-size: 16px;
         }
         button {
-            background-color: #4CAF50;
+            background-color: #28a745;
             color: white;
             border: none;
-            cursor: pointer;
+            margin-top: 10px;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #218838;
         }
         pre {
-            background: #000;
+            background: #1e1e1e;
             color: #0f0;
             padding: 15px;
             margin-top: 20px;
@@ -38,8 +38,8 @@
 </head>
 <body>
     <h1>EasyGenApp</h1>
-    <p>Describe qué código deseas generar:</p>
-    <textarea id="userInput" rows="5" placeholder="Ej: Crea una calculadora en JavaScript que tenga dos campos numéricos y botones de sumar, restar, multiplicar y dividir."></textarea>
+    <p>¿Qué código deseas generar?</p>
+    <textarea id="userInput" rows="5" placeholder="Ejemplo: Crea un formulario de contacto en HTML y PHP"></textarea>
     <button onclick="generateCode()">Generar Código</button>
     <pre id="resultArea">Aquí aparecerá el código generado...</pre>
 

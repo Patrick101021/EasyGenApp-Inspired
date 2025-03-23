@@ -5,7 +5,7 @@ exports.handler = async function(event, context) {
     const { input } = JSON.parse(event.body);
 
     const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + process.env.GEMINI_API_KEY,
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-002:generateContent?key=" + process.env.GEMINI_API_KEY,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -17,7 +17,6 @@ exports.handler = async function(event, context) {
 
     const result = await response.json();
 
-    // 👇 Log para ver si llega respuesta clara o con error
     console.log("Respuesta de Gemini:", result);
 
     return {
@@ -32,4 +31,5 @@ exports.handler = async function(event, context) {
     };
   }
 };
+
 

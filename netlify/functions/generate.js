@@ -16,14 +16,20 @@ exports.handler = async function(event, context) {
     );
 
     const result = await response.json();
+
+    // 👇 Log para ver si llega respuesta clara o con error
+    console.log("Respuesta de Gemini:", result);
+
     return {
       statusCode: 200,
       body: JSON.stringify(result)
     };
   } catch (error) {
+    console.error("Error interno:", error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: error.message })
     };
   }
 };
+

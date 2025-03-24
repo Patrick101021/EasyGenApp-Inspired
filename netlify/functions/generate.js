@@ -10,7 +10,7 @@ exports.handler = async function(event, context) {
     console.log("🔑 API KEY detectada:", process.env.GEMINI_API_KEY);
     console.log("📥 Texto recibido:", input);
 
-    const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-002:generateContent?key=" + process.env.GEMINI_API_KEY;
+    const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-002:generateContent?key=" + process.env.GEMINI_API_KEY;
 
     const response = await fetch(url, {
       method: "POST",
@@ -20,7 +20,7 @@ exports.handler = async function(event, context) {
       })
     });
 
-    const responseText = await response.text(); // leer el texto plano
+    const responseText = await response.text();
     console.log("📡 Respuesta en texto:", responseText);
 
     if (!response.ok) {
@@ -45,6 +45,7 @@ exports.handler = async function(event, context) {
     };
   }
 };
+
 
 
 

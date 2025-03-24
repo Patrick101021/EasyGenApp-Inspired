@@ -10,33 +10,33 @@ exports.handler = async function(event, context) {
     console.log("🔑 API KEY detectada:", process.env.GEMINI_API_KEY);
     console.log("📥 Texto recibido:", input);
 
-    const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-002:generateContent?key=" + process.env.GEMINI_API_KEY,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: input }] }]
-        })
-      }
-    );
+    const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-002:generateContent?key=" + process.env.GEMINI_API_KEY;
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: input }] }]
+      })
+    });
+
+    const responseText = await response.text(); // leer el texto plano
+    console.log("📡 Respuesta en texto:", responseText);
 
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error("❌ Error al llamar a Gemini:", response.status, errorText);
+      console.error("❌ Respuesta NO OK - Código:", response.status);
       return {
         statusCode: 502,
-        body: JSON.stringify({ error: "La API de Gemini respondió con un error." })
+        body: JSON.stringify({ error: "Error desde la API de Gemini. Código: " + response.status })
       };
     }
 
-    const result = await response.json();
-    console.log("📩 Respuesta de Gemini:", result);
-
+    const result = JSON.parse(responseText);
     return {
       statusCode: 200,
       body: JSON.stringify(result)
     };
+
   } catch (error) {
     console.error("❌ Error interno:", error);
     return {
@@ -45,6 +45,7 @@ exports.handler = async function(event, context) {
     };
   }
 };
+
 
 
 
